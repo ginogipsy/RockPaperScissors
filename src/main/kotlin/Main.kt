@@ -45,6 +45,8 @@ fun main() {
       else -> "Computer"
 
     }
+
+  println("Winner: $winner")
 }
 
 fun isChoiceNotCorrect(playerChoice: String): Boolean {
