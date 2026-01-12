@@ -11,37 +11,57 @@ const val BLUE = "\u001B[34m"
 const val PURPLE = "\u001B[35m"
 const val CYAN = "\u001B[36m"
 
+// ASCII ART banner
+fun printBanner() {
+    println(
+        """
+$PURPLE
+██████╗  ██████╗  ██████╗██╗  ██╗
+██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝
+██████╔╝██║   ██║██║     █████╔╝ 
+██╔══██╗██║   ██║██║     ██╔═██╗ 
+██║  ██║╚██████╔╝╚██████╗██║  ██╗
+╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝
+$CYAN      ROCK • PAPER • SCISSORS
+$RESET
+        """.trimIndent()
+    )
+}
+
 fun main() {
-  println("${CYAN}Rock, Paper or Scissors? Enter your choice!$RESET")
+    printBanner()
 
-  var count = 0
-  val validChoices = setOf("Rock", "Paper", "Scissors")
+    println("${CYAN}Rock, Paper or Scissors? Enter your choice!$RESET")
 
-  val playerChoice = generateSequence {
-    count++
+    var count = 0
+    val validChoices = setOf("Rock", "Paper", "Scissors")
 
-    when (count) {
-      2 -> println("${YELLOW}You must choose Rock, Paper or Scissors$RESET")
-      3 -> println("${PURPLE}Rock, Paper or Scissors!!!!!!!$RESET")
-      4 -> {
-        println("${RED}It's enough! You're a jackass!$RESET")
-        exitProcess(0)
-      }
+    val playerChoice = generateSequence {
+        count++
+
+        when (count) {
+            2 -> println("${YELLOW}You must choose Rock, Paper or Scissors$RESET")
+            3 -> println("${PURPLE}Rock, Paper or Scissors!!!!!!!$RESET")
+            4 -> {
+                println("${RED}It's enough! You're a jackass!$RESET")
+                exitProcess(0)
+            }
+        }
+
+        print("${BLUE}Your choice ➜ $RESET")
+        readln()
+    }.first { it in validChoices }
+
+    val computerChoice = listOf("Rock", "Paper", "Scissors").random()
+    println("${CYAN}Computer chose: ${YELLOW}$computerChoice$RESET")
+
+    val winner = when (playerChoice) {
+        computerChoice -> "${YELLOW}Tie$RESET"
+        "Rock" if computerChoice == "Scissors" -> "${GREEN}Player$RESET"
+        "Scissors" if computerChoice == "Paper" -> "${GREEN}Player$RESET"
+        "Paper" if computerChoice == "Rock" -> "${GREEN}Player$RESET"
+        else -> "${RED}Computer$RESET"
     }
 
-    readln()
-  }.first { it in validChoices }
-
-  val computerChoice = listOf("Rock", "Paper", "Scissors").random()
-  println("${BLUE}Computer chose: $computerChoice$RESET")
-
-  val winner = when (playerChoice) {
-      computerChoice -> "${YELLOW}Tie$RESET"
-      "Rock" if computerChoice == "Scissors" -> "${GREEN}Player$RESET"
-      "Scissors" if computerChoice == "Paper" -> "${GREEN}Player$RESET"
-      "Paper" if computerChoice == "Rock" -> "${GREEN}Player$RESET"
-      else -> "${RED}Computer$RESET"
-  }
-
-  println("Winner: $winner")
+    println("${PURPLE}Winner ➜ $winner$RESET")
 }
